@@ -4,13 +4,8 @@ import analysis
 from expense import Expense
 
 def add_expense():
-    """
-    Prompts user for expense details and returns an Expense object.
-    Includes validation for date and amount.
-    """
     print("\n--- Add New Expense ---")
     
-    # Date Validation
     while True:
         date = input("Enter date (YYYY-MM-DD): ")
         try:
@@ -19,7 +14,6 @@ def add_expense():
         except ValueError:
             print("Invalid date format. Please use YYYY-MM-DD.")
 
-    # Amount Validation
     while True:
         try:
             amount = float(input("Enter amount: "))
@@ -37,9 +31,6 @@ def add_expense():
     return expense
 
 def save_expense(expense):
-    """
-    Appends an Expense object to the CSV file.
-    """
     with open("data/expenses.csv", "a", newline="") as file:
         writer = csv.writer(file)
         writer.writerow([
@@ -50,33 +41,17 @@ def save_expense(expense):
         ])
 
 def load_expenses():
-    """
-    Reads expenses from CSV file.
-
-    Returns:
-        list: A list of dictionaries representing expenses.
-    """
     expenses = []
-    # Check if file exists to avoid error on first run if empty/missing
     try:
         with open("data/expenses.csv", "r") as file:
             reader = csv.DictReader(file)
             for row in reader:
-                # Convert amount back to float for consistency
-                # Note: CSV stores everything as strings
-                # We can store raw dicts as per Day 2 instructions
-                # or convert to Expense objects. Instructions say:
-                # "expenses.append(row)" implying dicts.
                 expenses.append(row)
     except FileNotFoundError:
         pass
     return expenses
 
-
 def menu():
-    """
-    Displays the main menu options.
-    """
     print("\n--- Expense Tracker Menu ---")
     print("1. Add Expense")
     print("2. View Expenses")
